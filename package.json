@@ -4,7 +4,8 @@
   "description": "",
   "main": "index.ts",
   "scripts": {
-    "start": "tsx index.ts"
+    "prod": "NODE_ENV=PROD tsx index.ts",
+    "dev": "NODE_ENV=DEV tsx index.ts"
   },
   "author": "",
   "license": "ISC",
