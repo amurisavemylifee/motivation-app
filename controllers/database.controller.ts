@@ -1,12 +1,11 @@
 import sqlite3 from "sqlite3";
 
-import { DebugController } from "./DebugController";
+import DebugController from "./debug.controller";
 
-export class DatabaseController {
-  private static instance: DatabaseController;
+class DatabaseController {
   private db: sqlite3.Database;
 
-  private constructor() {
+  constructor() {
     this.db = new sqlite3.Database(
       "./mydb.sqlite3",
       sqlite3.OPEN_READWRITE | sqlite3.OPEN_CREATE,
@@ -18,13 +17,6 @@ export class DatabaseController {
         }
       }
     );
-  }
-
-  public static getInstance(): DatabaseController {
-    if (!DatabaseController.instance) {
-      DatabaseController.instance = new DatabaseController();
-    }
-    return DatabaseController.instance;
   }
 
   public createTable(tableName: string, columns: string): void {
@@ -45,4 +37,10 @@ export class DatabaseController {
       DebugController.log("Close the database connection.");
     });
   }
+
+  public run(sql: string, callback: (err: Error) => void): void {
+    this.db.run(sql, callback);
+  }
 }
+
+export default new DatabaseController();
